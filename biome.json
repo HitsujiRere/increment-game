@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!public/*"]
+		"includes": ["**", "!public"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -16,12 +16,26 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"preset": "recommended"
+			"preset": "recommended",
+			"nursery": {
+				"useSortedClasses": {
+					"level": "on",
+					"options": {
+						"attributes": ["classList"],
+						"functions": ["cn", "cva"]
+					}
+				}
+			}
 		}
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"assist": {
