@@ -1,3 +1,5 @@
+import { PlayIcon, RefreshIcon, StopIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useGameApi } from "@/components/GameProvider";
 import { Button } from "@/components/ui/button";
 import { useGameStore } from "@/stores/gameStore";
@@ -8,13 +10,19 @@ export function Timer() {
 
 	return (
 		<div>
-			<div>{timer.elapsed.toFixed(2)}</div>
+			<div className="font-mono">{timer.elapsed.toFixed(2)}</div>
 
-			<Button onClick={() => gameApi.timer.start()}>Start</Button>
+			<Button size="icon" onClick={() => gameApi.timer.start()}>
+				<HugeiconsIcon icon={PlayIcon} />
+			</Button>
 
-			<Button onClick={() => gameApi.timer.stop()}>Stop</Button>
+			<Button size="icon" onClick={() => gameApi.timer.stop()}>
+				<HugeiconsIcon icon={StopIcon} />
+			</Button>
 
-			<Button onClick={() => gameApi.timer.reset()}>Reset</Button>
+			<Button size="icon" onClick={() => gameApi.timer.reset()}>
+				<HugeiconsIcon icon={RefreshIcon} />
+			</Button>
 		</div>
 	);
 }

@@ -6,7 +6,6 @@ import { GameProvider } from "./components/GameProvider.tsx";
 import { bootstrap } from "./game.ts";
 
 const root = document.getElementById("root");
-
 if (!root) {
 	throw new Error("Root element not found");
 }

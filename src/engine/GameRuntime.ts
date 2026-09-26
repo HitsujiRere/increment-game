@@ -10,6 +10,7 @@ export class GameRuntime {
 	) {
 		this.loop = new GameLoop((delta) => {
 			game.update(delta);
+
 			onSnapshot(game.getSnapshot());
 		});
 	}
