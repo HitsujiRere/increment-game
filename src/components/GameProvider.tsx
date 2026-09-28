@@ -1,34 +1,34 @@
 import { createContext, type ReactNode, useContext } from "react";
-import type { GameApi } from "@/engine/GameApi";
-import type { GameSaveService } from "@/persistence/GameSaveService";
-import { gameApi, gameSaveService } from "../game";
+import type { GameClient } from "@/client/GameClient";
+import type { SaveService } from "@/engine/persistence/SaveService";
+import { gameClient, saveService } from "@/game";
 
-const GameApiContext = createContext<GameApi | null>(null);
+const GameClientContext = createContext<GameClient | null>(null);
 
-const GameSaveServiceContext = createContext<GameSaveService | null>(null);
+const SaveServiceContext = createContext<SaveService | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
 	return (
-		<GameApiContext.Provider value={gameApi}>
-			<GameSaveServiceContext.Provider value={gameSaveService}>
+		<GameClientContext.Provider value={gameClient}>
+			<SaveServiceContext.Provider value={saveService}>
 				{children}
-			</GameSaveServiceContext.Provider>
-		</GameApiContext.Provider>
+			</SaveServiceContext.Provider>
+		</GameClientContext.Provider>
 	);
 }
 
-export function useGameApi(): GameApi {
-	const api = useContext(GameApiContext);
+export function useGameClient(): GameClient {
+	const api = useContext(GameClientContext);
 
 	if (api === null) {
-		throw new Error("useGameApi must be used within GameProvider");
+		throw new Error("useGameClient must be used within GameProvider");
 	}
 
 	return api;
 }
 
-export function useGameSaveService(): GameSaveService {
-	const service = useContext(GameSaveServiceContext);
+export function useSaveService(): SaveService {
+	const service = useContext(SaveServiceContext);
 
 	if (service === null) {
 		throw new Error("useGameSaveSurvice must be used within GameProvider");

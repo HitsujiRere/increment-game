@@ -1,37 +1,54 @@
 export class GameLoop {
-	private readonly update: (delta: number) => void;
-	private animationFrameId: number | null = null;
+	private running = false;
+	private timerId: ReturnType<typeof setTimeout> | null = null;
 	private lastTime = 0;
+
+	private readonly tickRate = 1000 / 1;
+
+	private readonly update: (delta: number) => void;
 
 	constructor(update: (delta: number) => void) {
 		this.update = update;
 	}
 
-	start() {
-		if (this.animationFrameId !== null) {
+	start(): void {
+		if (this.running) {
 			return;
 		}
 
+		this.running = true;
 		this.lastTime = performance.now();
 
-		const loop = (now: number) => {
-			const delta = (now - this.lastTime) / 1000;
-			this.lastTime = now;
-
-			this.update(delta);
-
-			this.animationFrameId = requestAnimationFrame(loop);
-		};
-
-		this.animationFrameId = requestAnimationFrame(loop);
+		this.scheduleNextTick();
 	}
 
-	stop() {
-		if (this.animationFrameId === null) {
+	stop(): void {
+		this.running = false;
+
+		if (this.timerId !== null) {
+			clearTimeout(this.timerId);
+			this.timerId = null;
+		}
+	}
+
+	private scheduleNextTick(): void {
+		this.timerId = setTimeout(() => {
+			this.tick();
+		}, this.tickRate);
+	}
+
+	private tick(): void {
+		if (!this.running) {
 			return;
 		}
 
-		cancelAnimationFrame(this.animationFrameId);
-		this.animationFrameId = null;
+		const now = performance.now();
+		const delta = (now - this.lastTime) / 1000;
+
+		this.lastTime = now;
+
+		this.update(delta);
+
+		this.scheduleNextTick();
 	}
 }

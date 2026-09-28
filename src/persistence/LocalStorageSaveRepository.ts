@@ -1,11 +1,11 @@
-import type { GameSave } from "./GameSave";
-import type { GameSaveRepository } from "./GameSaveRepository";
+import type { GameSave } from "@/engine/persistence/GameSave";
+import type { SaveRepository } from "./SaveRepository";
 
-export class LocalStorageSaveRepository implements GameSaveRepository {
-	private readonly key = "increment-game-";
+export class LocalStorageSaveRepository implements SaveRepository {
+	private readonly key = "increment-game-save";
 
-	save(save: GameSave) {
-		localStorage.setItem(this.key, JSON.stringify(save));
+	save(data: GameSave) {
+		localStorage.setItem(this.key, JSON.stringify(data));
 	}
 
 	load(): GameSave | null {
@@ -18,7 +18,7 @@ export class LocalStorageSaveRepository implements GameSaveRepository {
 		return JSON.parse(raw) as GameSave;
 	}
 
-	delete() {
+	delete(): void {
 		localStorage.removeItem(this.key);
 	}
 }

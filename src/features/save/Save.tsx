@@ -1,10 +1,10 @@
 import { ArrowDownToLineIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useGameSaveService } from "@/components/GameProvider";
+import { useSaveService } from "@/components/GameProvider";
 import { Button } from "@/components/ui/button";
 
 export function Save() {
-	const saveService = useGameSaveService();
+	const saveService = useSaveService();
 
 	return (
 		<div>

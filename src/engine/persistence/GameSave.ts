@@ -1,4 +1,4 @@
-import type { GameState } from "@/engine/GameState";
+import type { GameState } from "@/engine/domain/GameState";
 
 export type TimerSave = {
 	elapsed: number;

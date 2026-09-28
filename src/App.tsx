@@ -1,14 +1,18 @@
 import { Save } from "./features/save/Save";
-import { Timer } from "./features/timer/Timer";
+import { Wood } from "./features/wood/Wood";
 
 function App() {
 	return (
-		<div className="m-2">
-			<h1>農業</h1>
+		<div>
+			<header className="flex items-center justify-between border-b p-2">
+				<h1>森</h1>
 
-			<Save />
+				<Save />
+			</header>
 
-			<Timer />
+			<main className="p-2">
+				<Wood />
+			</main>
 		</div>
 	);
 }
