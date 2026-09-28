@@ -1,7 +1,7 @@
-import type { GameSnapshot } from "@/engine/domain/GameSnapshot";
 import type { GameState } from "@/engine/domain/GameState";
 import type { GameCommand } from "@/engine/protocol/commands";
 import type { GameEvent } from "@/engine/protocol/events";
+import { useGameStore } from "@/store/gameStore";
 
 type PendingExportRequest = {
 	resolve: (save: GameState) => void;
@@ -11,8 +11,6 @@ type PendingExportRequest = {
 export class GameClient {
 	private readonly worker: Worker;
 
-	private readonly snapshot: GameSnapshot;
-
 	private readonly pendingExports = new Map<string, PendingExportRequest>();
 
 	constructor() {
@@ -21,23 +19,19 @@ export class GameClient {
 			{ type: "module" },
 		);
 
-		// TODO: dummy snapshot
-		this.snapshot = {
-			wood: 0,
-			plantingLevel: 0,
-		};
-
 		this.worker.onmessage = (event: MessageEvent<GameEvent>) => {
 			this.handleEvent(event.data);
 		};
 	}
 
 	private handleEvent(event: GameEvent): void {
-		console.log(event);
+		if (event.type !== "snapshot") {
+			console.log(event);
+		}
 
 		switch (event.type) {
 			case "snapshot":
-				Object.assign(this.snapshot, structuredClone(event.snapshot));
+				useGameStore.getState().setSnapshot(event.snapshot);
 				break;
 
 			case "state/imported":
@@ -60,10 +54,6 @@ export class GameClient {
 		}
 	}
 
-	getSnapshot(): GameSnapshot {
-		return this.snapshot;
-	}
-
 	exportState(): Promise<GameState> {
 		const requestId = crypto.randomUUID();
 
@@ -84,9 +74,16 @@ export class GameClient {
 		} satisfies GameCommand);
 	}
 
+	// TODO: 整理
 	lumberjack(): void {
 		this.worker.postMessage({
 			type: "lumberjack",
+		} satisfies GameCommand);
+	}
+
+	plant(): void {
+		this.worker.postMessage({
+			type: "plant",
 		} satisfies GameCommand);
 	}
 }

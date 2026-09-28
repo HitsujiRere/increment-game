@@ -1,3 +1,4 @@
+import { getPlantingCost } from "./domain/GameRule";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
 import { GameLoop } from "./GameLoop";
@@ -31,6 +32,7 @@ self.onmessage = (event: MessageEvent<GameCommand>) => {
 
 		case "plant":
 			// TODO:
+			state.wood -= getPlantingCost(state.plantingLevel);
 			state.plantingLevel += 1;
 			break;
 

@@ -3,5 +3,5 @@ export function getWoodPerSecond(plantingLevel: number): number {
 }
 
 export function getPlantingCost(plantingLevel: number): number {
-	return plantingLevel * 10;
+	return plantingLevel + 1;
 }
