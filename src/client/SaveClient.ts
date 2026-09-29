@@ -25,7 +25,6 @@ export class SaveClient {
 	private handleEvent(event: GameEvent) {
 		switch (event.type) {
 			case "state/imported":
-				// TODO: handling
 				return;
 
 			case "state/exported": {

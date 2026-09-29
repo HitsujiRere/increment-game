@@ -1,6 +1,6 @@
-import type { GameCommand } from "@/engine/protocol/Command";
-import type { GameEvent } from "@/engine/protocol/Event";
 import type { GameState } from "../domain/GameState";
+import type { GameCommand } from "../protocol/Command";
+import type { GameEvent } from "../protocol/Event";
 
 export function handleSave(post: (event: GameEvent) => void, state: GameState) {
 	return (command: GameCommand) => {

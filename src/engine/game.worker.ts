@@ -1,9 +1,10 @@
 import { EventBus } from "@/types/EventBus";
+import { takeSnapshot } from "./domain/GameSnapshot";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
 import { GameLoop } from "./GameLoop";
-import { handleSave } from "./handler/handleSave";
-import { handleWood } from "./handler/handleWood";
+import { handleSave } from "./handler/saveHandler";
+import { handleWood } from "./handler/woodHandler";
 import type { GameCommand } from "./protocol/Command";
 import type { GameEvent } from "./protocol/Event";
 
@@ -16,8 +17,7 @@ const loop: GameLoop = new GameLoop((delta) => {
 
 	self.postMessage({
 		type: "snapshot",
-		// TODO: convert state to snapshot
-		snapshot: state,
+		snapshot: takeSnapshot(state),
 	} satisfies GameEvent);
 });
 
@@ -32,6 +32,8 @@ events.addEventListener(handleWood(post, state));
 
 self.onmessage = (event: MessageEvent<GameCommand>) => {
 	const command = event.data;
+	console.log("command", command);
+
 	events.emit(command);
 };
 

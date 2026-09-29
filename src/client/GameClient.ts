@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/toast";
 import type { GameCommand } from "@/engine/protocol/Command";
 import type { GameEvent } from "@/engine/protocol/Event";
 import { useGameStore } from "@/store/gameStore";
@@ -33,13 +34,17 @@ export class GameClient {
 	}
 
 	private handleEvent(event: GameEvent): void {
+		if (event.type !== "snapshot") {
+			console.log("event", event);
+		}
+
 		switch (event.type) {
 			case "snapshot":
 				useGameStore.getState().setSnapshot(event.snapshot);
 				break;
 
 			case "error":
-				// TODO: handling
+				toast.add({ title: event.message, type: "error" });
 				return;
 
 			default:

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { GameProvider } from "./components/GameProvider.tsx";
+import { Toaster } from "./components/ui/toast.tsx";
 import { bootstrap } from "./game.ts";
 
 const root = document.getElementById("root");
@@ -16,6 +17,7 @@ createRoot(root).render(
 	<StrictMode>
 		<GameProvider>
 			<App />
+			<Toaster />
 		</GameProvider>
 	</StrictMode>,
 );

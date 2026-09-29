@@ -11,27 +11,18 @@ export function Wood() {
 
 	return (
 		<div>
-			<div className="font-mono">
-				{/* TODO: 値の適切な監視 */}
-				木: {wood.toFixed(2)}
+			<div className="font-mono">木: {wood.toFixed(2)}</div>
+
+			<div className="flex gap-2">
+				<Button variant="outline" onClick={() => gameClient.wood.lumberjack()}>
+					木こり: 木+1
+				</Button>
+
+				<Button variant="outline" onClick={() => gameClient.wood.plant()}>
+					植林 Lv{plantingLevel} (+{getWoodPerSecond(plantingLevel).toFixed(2)}
+					木/秒): -{getPlantingCost(plantingLevel)}木
+				</Button>
 			</div>
-
-			<Button
-				variant="outline"
-				onClick={() => gameClient.wood.lumberjack()}
-				className="text-base"
-			>
-				木こり: 木+1
-			</Button>
-
-			<Button
-				variant="outline"
-				onClick={() => gameClient.wood.plant()}
-				className="text-base"
-			>
-				植林 Lv{plantingLevel} (+{getWoodPerSecond(plantingLevel).toFixed(2)}
-				木/秒): -{getPlantingCost(plantingLevel)}木
-			</Button>
 		</div>
 	);
 }

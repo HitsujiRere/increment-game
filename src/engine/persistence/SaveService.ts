@@ -1,4 +1,5 @@
 import type { GameClient } from "@/client/GameClient";
+import { toast } from "@/components/ui/toast";
 import type { SaveRepository } from "@/persistence/SaveRepository";
 
 export class SaveService {
@@ -11,6 +12,7 @@ export class SaveService {
 	}
 
 	async save(): Promise<void> {
+		// TODO: Error handling
 		const data = await this.client.save.exportState();
 
 		this.repository.save({
@@ -18,6 +20,8 @@ export class SaveService {
 			state: data,
 			savedAt: Date.now(),
 		});
+
+		toast.add({ title: "保存しました", type: "success" });
 	}
 
 	load(): void {
