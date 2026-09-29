@@ -1,7 +1,7 @@
 import type { GameState } from "@/engine/domain/GameState";
 import type { GameCommand } from "@/engine/protocol/Command";
 import type { GameEvent } from "@/engine/protocol/Event";
-import type { GameEventBus } from "./GameEventBus";
+import type { EventBus } from "@/types/EventBus";
 
 type PendingExportRequest = {
 	resolve: (save: GameState) => void;
@@ -13,7 +13,10 @@ export class SaveClient {
 
 	private readonly pendingExports = new Map<string, PendingExportRequest>();
 
-	constructor(send: (command: GameCommand) => void, events: GameEventBus) {
+	constructor(
+		send: (command: GameCommand) => void,
+		events: EventBus<GameEvent>,
+	) {
 		this.send = send;
 
 		events.addEventListener(this.handleEvent.bind(this));

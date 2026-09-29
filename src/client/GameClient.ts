@@ -1,13 +1,13 @@
 import type { GameCommand } from "@/engine/protocol/Command";
 import type { GameEvent } from "@/engine/protocol/Event";
 import { useGameStore } from "@/store/gameStore";
-import { GameEventBus } from "./GameEventBus";
+import { EventBus } from "@/types/EventBus";
 import { SaveClient } from "./SaveClient";
 import { WoodClient } from "./WoodClient";
 
 export class GameClient {
 	private readonly worker: Worker;
-	private readonly events = new GameEventBus();
+	private readonly events = new EventBus<GameEvent>();
 
 	readonly save: SaveClient;
 	readonly wood: WoodClient;

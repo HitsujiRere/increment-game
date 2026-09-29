@@ -12,6 +12,7 @@
 		"lint": "biome lint",
 		"lint:fix": "biome lint --write",
 		"typecheck": "tsc -b --noEmit",
+		"check": "bun typecheck & bun lint & bun format:check",
 		"test": "vitest",
 		"test:run": "vitest run"
 	},

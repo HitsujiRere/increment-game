@@ -1,7 +1,9 @@
-import { getPlantingCost } from "./domain/GameRule";
+import { EventBus } from "@/types/EventBus";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
 import { GameLoop } from "./GameLoop";
+import { handleSave } from "./handler/handleSave";
+import { handleWood } from "./handler/handleWood";
 import type { GameCommand } from "./protocol/Command";
 import type { GameEvent } from "./protocol/Event";
 
@@ -19,37 +21,18 @@ const loop: GameLoop = new GameLoop((delta) => {
 	} satisfies GameEvent);
 });
 
+const post = (event: GameEvent) => {
+	self.postMessage(event);
+};
+
+const events = new EventBus<GameCommand>();
+
+events.addEventListener(handleSave(post, state));
+events.addEventListener(handleWood(post, state));
+
 self.onmessage = (event: MessageEvent<GameCommand>) => {
 	const command = event.data;
-
-	switch (command.type) {
-		case "lumberjack":
-			// TODO:
-			state.wood += 1;
-			break;
-
-		case "plant":
-			// TODO:
-			state.wood -= getPlantingCost(state.plantingLevel);
-			state.plantingLevel += 1;
-			break;
-
-		case "state/import":
-			Object.assign(state, command.state);
-
-			self.postMessage({
-				type: "state/imported",
-			} satisfies GameEvent);
-			break;
-
-		case "state/export":
-			self.postMessage({
-				type: "state/exported",
-				requestId: command.requestId,
-				state,
-			} satisfies GameEvent);
-			break;
-	}
+	events.emit(command);
 };
 
 loop.start();
