@@ -2,7 +2,7 @@ import type { GameClient } from "@/client/GameClient";
 import type { SaveRepository } from "@/persistence/SaveRepository";
 
 export class SaveService {
-	readonly client: GameClient;
+	private readonly client: GameClient;
 	private readonly repository: SaveRepository;
 
 	constructor(client: GameClient, repository: SaveRepository) {
@@ -11,7 +11,7 @@ export class SaveService {
 	}
 
 	async save(): Promise<void> {
-		const data = await this.client.exportState();
+		const data = await this.client.save.exportState();
 
 		this.repository.save({
 			version: 1,
@@ -26,7 +26,7 @@ export class SaveService {
 			return;
 		}
 
-		this.client.importState(data.state);
+		this.client.save.importState(data.state);
 	}
 
 	delete(): void {

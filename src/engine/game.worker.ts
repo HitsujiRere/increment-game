@@ -2,8 +2,8 @@ import { getPlantingCost } from "./domain/GameRule";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
 import { GameLoop } from "./GameLoop";
-import type { GameCommand } from "./protocol/commands";
-import type { GameEvent } from "./protocol/events";
+import type { GameCommand } from "./protocol/Command";
+import type { GameEvent } from "./protocol/Event";
 
 const state = createInitialGameState();
 
@@ -20,8 +20,6 @@ const loop: GameLoop = new GameLoop((delta) => {
 });
 
 self.onmessage = (event: MessageEvent<GameCommand>) => {
-	console.log(event.data);
-
 	const command = event.data;
 
 	switch (command.type) {

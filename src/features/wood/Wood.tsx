@@ -18,7 +18,7 @@ export function Wood() {
 
 			<Button
 				variant="outline"
-				onClick={() => gameClient.lumberjack()}
+				onClick={() => gameClient.wood.lumberjack()}
 				className="text-base"
 			>
 				木こり: 木+1
@@ -26,7 +26,7 @@ export function Wood() {
 
 			<Button
 				variant="outline"
-				onClick={() => gameClient.plant()}
+				onClick={() => gameClient.wood.plant()}
 				className="text-base"
 			>
 				植林 Lv{plantingLevel} (+{getWoodPerSecond(plantingLevel).toFixed(2)}

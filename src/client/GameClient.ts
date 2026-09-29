@@ -1,89 +1,50 @@
-import type { GameState } from "@/engine/domain/GameState";
-import type { GameCommand } from "@/engine/protocol/commands";
-import type { GameEvent } from "@/engine/protocol/events";
+import type { GameCommand } from "@/engine/protocol/Command";
+import type { GameEvent } from "@/engine/protocol/Event";
 import { useGameStore } from "@/store/gameStore";
-
-type PendingExportRequest = {
-	resolve: (save: GameState) => void;
-	reject: (error: Error) => void;
-};
+import { GameEventBus } from "./GameEventBus";
+import { SaveClient } from "./SaveClient";
+import { WoodClient } from "./WoodClient";
 
 export class GameClient {
 	private readonly worker: Worker;
+	private readonly events = new GameEventBus();
 
-	private readonly pendingExports = new Map<string, PendingExportRequest>();
+	readonly save: SaveClient;
+	readonly wood: WoodClient;
 
 	constructor() {
 		this.worker = new Worker(
-			new URL("../engine/game.worker.ts", import.meta.url),
+			new URL("@/engine/game.worker.ts", import.meta.url),
 			{ type: "module" },
 		);
+
+		const send = this.sendCommand.bind(this);
+
+		this.save = new SaveClient(send, this.events);
+		this.wood = new WoodClient(send);
 
 		this.worker.onmessage = (event: MessageEvent<GameEvent>) => {
 			this.handleEvent(event.data);
 		};
 	}
 
-	private handleEvent(event: GameEvent): void {
-		if (event.type !== "snapshot") {
-			console.log(event);
-		}
+	private sendCommand(command: GameCommand): void {
+		this.worker.postMessage(command);
+	}
 
+	private handleEvent(event: GameEvent): void {
 		switch (event.type) {
 			case "snapshot":
 				useGameStore.getState().setSnapshot(event.snapshot);
 				break;
 
-			case "state/imported":
-				return;
-
-			case "state/exported": {
-				const request = this.pendingExports.get(event.requestId);
-				if (!request) {
-					return;
-				}
-
-				this.pendingExports.delete(event.requestId);
-				request.resolve(event.state);
-				return;
-			}
-
 			case "error":
 				// TODO: handling
 				return;
+
+			default:
+				this.events.emit(event);
+				return;
 		}
-	}
-
-	exportState(): Promise<GameState> {
-		const requestId = crypto.randomUUID();
-
-		return new Promise((resolve, reject) => {
-			this.pendingExports.set(requestId, { resolve, reject });
-
-			this.worker.postMessage({
-				type: "state/export",
-				requestId,
-			});
-		});
-	}
-
-	importState(state: GameState): void {
-		this.worker.postMessage({
-			type: "state/import",
-			state,
-		} satisfies GameCommand);
-	}
-
-	// TODO: 整理
-	lumberjack(): void {
-		this.worker.postMessage({
-			type: "lumberjack",
-		} satisfies GameCommand);
-	}
-
-	plant(): void {
-		this.worker.postMessage({
-			type: "plant",
-		} satisfies GameCommand);
 	}
 }
