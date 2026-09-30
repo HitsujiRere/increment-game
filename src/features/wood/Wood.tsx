@@ -18,7 +18,11 @@ export function Wood() {
 					木こり: 木+1
 				</Button>
 
-				<Button variant="outline" onClick={() => gameClient.wood.plant()}>
+				<Button
+					variant="outline"
+					disabled={wood < getPlantingCost(plantingLevel)}
+					onClick={() => gameClient.wood.plant()}
+				>
 					植林 Lv{plantingLevel} (+{getWoodPerSecond(plantingLevel).toFixed(2)}
 					木/秒): -{getPlantingCost(plantingLevel)}木
 				</Button>

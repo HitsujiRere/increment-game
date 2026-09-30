@@ -15,7 +15,7 @@ export class SaveService {
 		// TODO: Error handling
 		const data = await this.client.save.exportState();
 
-		this.repository.save({
+		await this.repository.save({
 			version: 1,
 			state: data,
 			savedAt: Date.now(),
@@ -24,8 +24,8 @@ export class SaveService {
 		toast.add({ title: "保存しました", type: "success" });
 	}
 
-	load(): void {
-		const data = this.repository.load();
+	async load(): Promise<void> {
+		const data = await this.repository.load();
 		if (!data) {
 			return;
 		}
@@ -33,7 +33,7 @@ export class SaveService {
 		this.client.save.importState(data.state);
 	}
 
-	delete(): void {
+	async delete(): Promise<void> {
 		this.repository.delete();
 	}
 }

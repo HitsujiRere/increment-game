@@ -1,9 +1,9 @@
 import type { GameSave } from "@/engine/persistence/GameSave";
 
 export interface SaveRepository {
-	save(save: GameSave): void;
+	save(save: GameSave): Promise<void>;
 
-	load(): GameSave | null;
+	load(): Promise<GameSave | null>;
 
-	delete(): void;
+	delete(): Promise<void>;
 }

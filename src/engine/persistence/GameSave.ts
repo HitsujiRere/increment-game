@@ -1,13 +1,12 @@
-import type { GameState } from "@/engine/domain/GameState";
+import { z } from "zod/mini";
 
-export type TimerSave = {
-	elapsed: number;
-};
+export const gameSaveSchema = z.object({
+	version: z.literal(1),
+	state: z.object({
+		wood: z.number(),
+		plantingLevel: z.number(),
+	}),
+	savedAt: z.number(),
+});
 
-export type GameSave = {
-	version: 1;
-
-	state: GameState;
-
-	savedAt: number;
-};
+export type GameSave = z.infer<typeof gameSaveSchema>;

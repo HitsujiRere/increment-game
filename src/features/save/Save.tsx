@@ -12,6 +12,16 @@ export function Save() {
 				<HugeiconsIcon icon={ArrowDownToLineIcon} />
 				保存
 			</Button>
+
+			<Button
+				onClick={() => {
+					saveService.delete();
+					location.reload();
+				}}
+			>
+				<HugeiconsIcon icon={ArrowDownToLineIcon} />
+				リセット
+			</Button>
 		</div>
 	);
 }

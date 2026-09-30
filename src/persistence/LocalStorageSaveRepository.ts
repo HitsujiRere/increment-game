@@ -1,24 +1,24 @@
-import type { GameSave } from "@/engine/persistence/GameSave";
+import { type GameSave, gameSaveSchema } from "@/engine/persistence/GameSave";
 import type { SaveRepository } from "./SaveRepository";
 
 export class LocalStorageSaveRepository implements SaveRepository {
 	private readonly key = "increment-game-save";
 
-	save(data: GameSave) {
+	async save(data: GameSave): Promise<void> {
 		localStorage.setItem(this.key, JSON.stringify(data));
 	}
 
-	load(): GameSave | null {
+	async load(): Promise<GameSave | null> {
 		const raw = localStorage.getItem(this.key);
-
 		if (raw === null) {
 			return null;
 		}
+		console.log("raw", raw);
 
-		return JSON.parse(raw) as GameSave;
+		return gameSaveSchema.parseAsync(JSON.parse(raw));
 	}
 
-	delete(): void {
+	async delete(): Promise<void> {
 		localStorage.removeItem(this.key);
 	}
 }
