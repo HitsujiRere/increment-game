@@ -3,7 +3,7 @@ export class GameLoop {
 	private timerId: ReturnType<typeof setTimeout> | null = null;
 	private lastTime = 0;
 
-	private readonly tickRate = 1000 / 20;
+	private readonly tickRate = 1000 / 5;
 
 	private readonly update: (delta: number) => void;
 

@@ -1,5 +1,5 @@
-import { getPlantingCost } from "../domain/GameRule";
 import type { GameState } from "../domain/GameState";
+import { getPlantingCost } from "../domain/Wood";
 import type { GameCommand } from "../protocol/Command";
 import type { GameEvent } from "../protocol/Event";
 

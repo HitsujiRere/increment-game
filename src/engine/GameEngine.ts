@@ -1,5 +1,5 @@
-import { getWoodPerSecond } from "./domain/GameRule";
 import type { GameState } from "./domain/GameState";
+import { getWoodPerSecond } from "./domain/Wood";
 
 export class GameEngine {
 	private state: GameState;
@@ -9,6 +9,8 @@ export class GameEngine {
 	}
 
 	update(delta: number): void {
+		this.state.time += delta;
+
 		const woodPerSecond = getWoodPerSecond(this.state.plantingLevel);
 		this.state.wood += woodPerSecond * delta;
 	}

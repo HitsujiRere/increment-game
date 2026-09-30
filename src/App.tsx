@@ -1,5 +1,5 @@
 import { Save } from "./features/save/Save";
-import { Wood } from "./features/wood/Wood";
+import { Status } from "./features/status/Status";
 
 function App() {
 	return (
@@ -11,7 +11,7 @@ function App() {
 			</header>
 
 			<main className="p-2">
-				<Wood />
+				<Status />
 			</main>
 		</div>
 	);
