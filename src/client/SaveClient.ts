@@ -1,7 +1,7 @@
 import type { GameState } from "@/engine/domain/GameState";
 import type { GameCommand } from "@/engine/protocol/Command";
 import type { GameEvent } from "@/engine/protocol/Event";
-import type { EventBus } from "@/types/EventBus";
+import type { EventBus } from "@/shared/EventBus";
 
 type PendingExportRequest = {
 	resolve: (save: GameState) => void;

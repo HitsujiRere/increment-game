@@ -1,8 +1,8 @@
 import { toast } from "@/components/ui/toast";
 import type { GameCommand } from "@/engine/protocol/Command";
 import type { GameEvent } from "@/engine/protocol/Event";
+import { EventBus } from "@/shared/EventBus";
 import { useGameStore } from "@/store/gameStore";
-import { EventBus } from "@/types/EventBus";
 import { SaveClient } from "./SaveClient";
 import { WoodClient } from "./WoodClient";
 

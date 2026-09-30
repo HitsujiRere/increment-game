@@ -1,4 +1,4 @@
-import { EventBus } from "@/types/EventBus";
+import { EventBus } from "@/shared/EventBus";
 import { takeSnapshot } from "./domain/GameSnapshot";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
