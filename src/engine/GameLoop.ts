@@ -1,11 +1,14 @@
+const TICK_PER_SECONDS = 5;
+
 export class GameLoop {
+	private readonly tickRate = 1000 / TICK_PER_SECONDS;
+
+	private readonly update: (delta: number) => void;
+
 	private running = false;
 	private timerId: ReturnType<typeof setTimeout> | null = null;
 	private lastTime = 0;
-
-	private readonly tickRate = 1000 / 5;
-
-	private readonly update: (delta: number) => void;
+	public gameSpeed = 1;
 
 	constructor(update: (delta: number) => void) {
 		this.update = update;
@@ -43,7 +46,7 @@ export class GameLoop {
 		}
 
 		const now = performance.now();
-		const delta = (now - this.lastTime) / 1000;
+		const delta = ((now - this.lastTime) * this.gameSpeed) / 1000;
 
 		this.lastTime = now;
 

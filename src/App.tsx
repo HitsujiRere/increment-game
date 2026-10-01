@@ -1,14 +1,10 @@
-import { Save } from "./features/save/Save";
+import { Header } from "./features/header/Header";
 import { Status } from "./features/status/Status";
 
 function App() {
 	return (
 		<div>
-			<header className="flex items-center justify-between border-b p-2">
-				<h1>森</h1>
-
-				<Save />
-			</header>
+			<Header />
 
 			<main className="p-2">
 				<Status />

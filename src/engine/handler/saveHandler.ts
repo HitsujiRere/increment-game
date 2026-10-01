@@ -2,7 +2,10 @@ import type { GameState } from "../domain/GameState";
 import type { GameCommand } from "../protocol/Command";
 import type { GameEvent } from "../protocol/Event";
 
-export function handleSave(post: (event: GameEvent) => void, state: GameState) {
+export function saveHandler(
+	post: (event: GameEvent) => void,
+	state: GameState,
+) {
 	return (command: GameCommand) => {
 		switch (command.type) {
 			case "state/import":

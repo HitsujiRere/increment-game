@@ -3,7 +3,10 @@ import { getPlantingCost } from "../domain/Wood";
 import type { GameCommand } from "../protocol/Command";
 import type { GameEvent } from "../protocol/Event";
 
-export function handleWood(post: (event: GameEvent) => void, state: GameState) {
+export function woodHandler(
+	post: (event: GameEvent) => void,
+	state: GameState,
+) {
 	return (command: GameCommand) => {
 		switch (command.type) {
 			case "lumberjack":

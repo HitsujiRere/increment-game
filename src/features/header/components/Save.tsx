@@ -1,4 +1,4 @@
-import { ArrowDownToLineIcon } from "@hugeicons/core-free-icons";
+import { ArrowDownToLineIcon, TrashIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useSaveService } from "@/components/GameProvider";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ export function Save() {
 					location.reload();
 				}}
 			>
-				<HugeiconsIcon icon={ArrowDownToLineIcon} />
+				<HugeiconsIcon icon={TrashIcon} />
 				リセット
 			</Button>
 		</div>

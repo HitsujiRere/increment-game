@@ -3,8 +3,8 @@ import { takeSnapshot } from "./domain/GameSnapshot";
 import { createInitialGameState } from "./domain/GameState";
 import { GameEngine } from "./GameEngine";
 import { GameLoop } from "./GameLoop";
-import { handleSave } from "./handler/saveHandler";
-import { handleWood } from "./handler/woodHandler";
+import { saveHandler } from "./handler/saveHandler";
+import { woodHandler } from "./handler/woodHandler";
 import type { GameCommand } from "./protocol/Command";
 import type { GameEvent } from "./protocol/Event";
 
@@ -27,8 +27,8 @@ const post = (event: GameEvent) => {
 
 const events = new EventBus<GameCommand>();
 
-events.addEventListener(handleSave(post, state));
-events.addEventListener(handleWood(post, state));
+events.addEventListener(saveHandler(post, state));
+events.addEventListener(woodHandler(post, state));
 
 self.onmessage = (event: MessageEvent<GameCommand>) => {
 	const command = event.data;
